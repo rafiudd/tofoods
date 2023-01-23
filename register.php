@@ -59,7 +59,7 @@
               </li>
             </ul>
             <div class="user_option">
-              <a class="cart_link" href="#">
+              <a class="cart_link" href="cart.php">
                 <i class="fa" style="font-size:20px; color: white;">&#xf07a;</i>
                 <span class='badge badge-warning' id='lblCartCount'> 0 </span>
               </a>

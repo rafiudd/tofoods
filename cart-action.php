@@ -7,7 +7,7 @@ $sql = "INSERT INTO `carts` (`id`, `product_id`, `user_id`, `quantity`, `created
 $result = mysqli_query($conn, $sql);
 
 if ($result) {
-    echo "<script>alert('Produk berhasil masuk ke keranjang'); window.location='menu.php'; </script>";
+    echo "<script>alert('Produk berhasil masuk ke keranjang'); window.location='cart.php'; </script>";
 }
 
 ?>

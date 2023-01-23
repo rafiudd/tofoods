@@ -62,7 +62,7 @@
               </li>
             </ul>
             <div class="user_option">
-              <a class="cart_link" href="#">
+              <a class="cart_link" href="cart.php">
                 <i class="fa" style="font-size:20px; color: white;">&#xf07a;</i>
                 <?php
                   include 'connection.php';
@@ -389,11 +389,11 @@
                 <div class="img-box">
                   <img src=<?php echo $baris_data[
                       "image"
-                  ]; ?> alt=<?php echo $baris_data["name"]; ?>>
+                  ]; ?> alt=<?php echo $baris_data["product_name"]; ?>>
                 </div>
                 <div class="detail-box">
                   <h5>
-                  <?php echo $baris_data["name"]; ?>
+                  <?php echo $baris_data["product_name"]; ?>
                   </h5>
                   <p>
                   <?php echo $baris_data["description"]; ?>
@@ -405,7 +405,7 @@
 
                    
                     <?php
-                        // session_start();
+                        session_start();
                         if(isset($_SESSION['name'])) {
                             echo ' <form id="my_form" action="cart-action.php?id=' . $baris_data['id'] . '" method="POST">
                             <a href="#" onclick="showAlert()">
