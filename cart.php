@@ -104,7 +104,7 @@
             </thead>
             <tbody>
               <?php 
-                $sql_tampil = "SELECT carts.id AS order_id, products.product_name, products.price, products.description, products.image FROM carts JOIN products ON carts.product_id = products.id JOIN users ON carts.user_id = users.id WHERE carts.user_id = '{$_SESSION['id']}'";
+                $sql_tampil = "SELECT carts.id AS order_id, products.product_name, products.price, products.description, products.image, carts.quantity FROM carts JOIN products ON carts.product_id = products.id JOIN users ON carts.user_id = users.id WHERE carts.user_id = '{$_SESSION['id']}'";
                 $data = mysqli_query($conn, $sql_tampil);                
                 while($baris_data = mysqli_fetch_array($data, MYSQLI_ASSOC)) {
               ?>
@@ -121,7 +121,7 @@
                   <strong><?php echo $baris_data['quantity']; ?></strong>
                 </td>
                 <td class="col-sm-1 col-md-1 text-center">
-                  <strong><?php echo $baris_data['price']; ?></strong>
+                  <strong><?php echo rupiah($baris_data['price']); ?></strong>
                 </td>
                 <td class="col-sm-1 col-md-1">
                     <form id="delete-cart" action="delete-cart-action.php?id=<?php echo $baris_data['order_id']?>" method="POST">
@@ -137,8 +137,50 @@
                 <td></td>
                 <td></td>
                 <td>
-                  <button type="button" class="btn btn-success"> Checkout <span class="fa fa-play"></span>
+                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter"> Checkout <span class="fa fa-play"></span>
                   </button>
+                  <!-- Modal -->
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Order Confirmation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    <form action="insert-order-action.php" method="POST">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Nama Lengkap</label>
+                            <input type="email" class="form-control" id="exampleFormControlInput1" disabled placeholder=<?php echo $_SESSION['name'] ?>>
+                        </div>
+                        <?php 
+                            $sql_tampil = "SELECT SUM(products.price) AS price FROM carts JOIN products ON carts.product_id = products.id JOIN users ON carts.user_id = users.id WHERE carts.user_id = '{$_SESSION['id']}'";
+                            $data = mysqli_query($conn, $sql_tampil);    
+                            while($baris_data = mysqli_fetch_array($data, MYSQLI_ASSOC)) {
+                        ?>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Total</label>
+                            <input type="email" class="form-control" id="exampleFormControlInput1" disabled placeholder="Rp. <?php echo $baris_data['price']; ?>">
+                        </div>
+                        <?php } ?>
+
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Alamat</label>
+                            <textarea  name="address" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success"> Order Now </button>
+                    </div>
+                        </form>
+                    </div>
+
+                    </div>
+                </div>
+                </div>
+
                 </td>
               </tr>
             </tbody>

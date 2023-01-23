@@ -234,12 +234,12 @@
                   </p>
                   <div class="options">
                     <h6>
-                      <?php echo $baris_data["price"]; ?>
+                      <?php echo rupiah($baris_data["price"]); ?>
                     </h6>
 
                    
                     <?php
-                        session_start();
+                        // session_start();
                         if(isset($_SESSION['name'])) {
                             echo ' <form id="my_form" action="cart-action.php?id=' . $baris_data['id'] . '" method="POST">
                             <a href="#" onclick="showAlert()">
