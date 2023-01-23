@@ -2,6 +2,7 @@
 <html>
 
 <head>
+ 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -12,15 +13,11 @@
 
   <title> Tofood </title>
 
-  
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
 
-  
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
   <link href="css/font-awesome.min.css" rel="stylesheet" />
-
-  
   <link href="css/style.css" rel="stylesheet" />
   <link href="css/responsive.css" rel="stylesheet" />
 
@@ -32,7 +29,7 @@
     <div class="bg-box">
       <img src="images/hero-bg.jpg" alt="">
     </div>
-  
+    
     <header class="header_section">
       <div class="container">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
@@ -48,119 +45,78 @@
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav  mx-auto ">
-              <li class="nav-item">
-                <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+              <li class="nav-item ">
+                <a class="nav-link" href="index.php">Home </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="menu.php">Menu</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="about.php">About</a>
-              </li>
               <li class="nav-item active">
+                <a class="nav-link" href="about.php">About <span class="sr-only">(current)</span> </a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="book.php">Book Table</a>
               </li>
             </ul>
             <div class="user_option">
               <a class="cart_link" href="#">
                 <i class="fa" style="font-size:20px; color: white;">&#xf07a;</i>
-                <?php
-                  include 'connection.php';
-                  session_start();
-                  $sql = "SELECT COUNT(*) AS total FROM carts WHERE user_id = '{$_SESSION['id']}'";
-                  $result = mysqli_query($conn, $sql);
-                  $data = mysqli_fetch_assoc($result);
-                ?>
-                <span class='badge badge-warning' id='lblCartCount'> <?php echo $data['total']; ?> </span>
+                <span class='badge badge-warning' id='lblCartCount'> 0 </span>
               </a>
-
-              <?php
-                if(isset($_SESSION['name'])) {
-                    echo '
-                      <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi, '.$_SESSION['name'].'!</button>
-                        <div class="dropdown-menu shadow-sm m-0" aria-labelledby="dropdownMenuButton">
-                          <a style="color: black;" class="" href="logout.php">Logout</a>
-                        </div>
-                      </div>
-                            ';
-                } else {
-                  echo '<a href="login.php" class="user_link">
-                        <i class="fa fa-user" aria-hidden="true"></i>
-                        </a><a href="" class="order_online">
-                        Order Online
-                      </a>';
-                  }
-                ?>
+              <a href="login.php" class="user_link">
+                <i class="fa fa-user" aria-hidden="true"></i>
+              </a>
+              
+              <a href="menu.php" class="order_online">
+                Order Online
+              </a>
             </div>
           </div>
         </nav>
       </div>
     </header>
+    <!-- end header section -->
   </div>
 
-  <section class="book_section layout_padding">
-    <div class="container">
-      <div class="heading_container">
-        <h2>
-          Book A Table
-        </h2>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form_container">
-            <form action="">
-              <div>
-                <input type="text" class="form-control" placeholder="Your Name" />
+   
+  <div style="margin-top: 100px"></div>
+    <div class="row mx-0 align-items-center justify-content-center mt-5">
+      <div class="col-4">
+        <h1>Register Your Account</h1>
+        <p>Have an Account ? <a href="login.php">Login</a></p>
+        <form action="register-action.php" method="POST">
+          <div class="row g-3 mt-3">
+            <div class="col-12">
+              <div class="form-floating">
+                  <label for="name">Full Name</label>
+                <input type="name" class="form-control" name="name" id="name" placeholder="Full Name">
               </div>
-              <div>
-                <input type="text" class="form-control" placeholder="Phone Number" />
+            </div>
+            <div class="col-12">
+              <div class="form-floating mt-3">
+                  <label for="email">Email</label>
+                <input type="email" class="form-control" name="email" id="email" placeholder="Email">
               </div>
-              <div>
-                <input type="email" class="form-control" placeholder="Your Email" />
+            </div>
+            <div class="col-12">
+              <div class="form-floating mt-3">
+              <label for="password">Password</label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Password">
               </div>
-              <div>
-                <select class="form-control nice-select wide">
-                  <option value="" disabled selected>
-                    How many persons?
-                  </option>
-                  <option value="">
-                    2
-                  </option>
-                  <option value="">
-                    3
-                  </option>
-                  <option value="">
-                    4
-                  </option>
-                  <option value="">
-                    5
-                  </option>
-                </select>
-              </div>
-              <div>
-                <input type="date" class="form-control">
-              </div>
-              <div class="btn_box">
-                <button>
-                  Book Now
-                </button>
-              </div>
-            </form>
+            </div>
+            <div class="col-12">
+              </p>
+              <button class="btn btn-success py-3 px-4 mt-4" type="submit">Register</button>
+            </div>
           </div>
-        </div>
-        <div class="col-md-6">
-          <div class="map_container ">
-            <div id="googleMap"></div>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
-  </section>
- 
+    <div style="margin-top: 200px"></div>
 
-  
-   <footer class="footer_section">
+
+  <!-- footer section -->
+  <footer class="footer_section">
     <div class="container">
       <div class="row">
         <div class="col-md-4 footer-col">
@@ -241,20 +197,26 @@
     </div>
   </footer>
 
-  
+  <!-- jQery -->
   <script src="js/jquery-3.4.1.min.js"></script>
+  <!-- popper js -->
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
   </script>
-  
+  <!-- bootstrap js -->
   <script src="js/bootstrap.js"></script>
+  <!-- owl slider -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
   </script>
-
+  <!-- isotope js -->
   <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
+  <!-- nice select -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+  <!-- custom js -->
   <script src="js/custom.js"></script>
+  <!-- Google Map -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
   </script>
+  <!-- End Google Map -->
 
 </body>
 
