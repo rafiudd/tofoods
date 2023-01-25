@@ -55,7 +55,7 @@
                 <?php
                   include 'connection.php';
                   session_start();
-                  if(!$_SESSION['id']) {
+                  if(empty($_SESSION['id'])) {
                     $_SESSION['id'] = 0;
                   }
                   $sql = "SELECT COUNT(*) AS total FROM carts WHERE user_id = '{$_SESSION['id']}'";
@@ -141,7 +141,7 @@
                 <td></td>
                 <td>
                 <?php
-                if(!$_SESSION['id']) {
+                if(empty($_SESSION['id'])) {
                   $_SESSION['id'] = 0;
                 }
                 $sql = "SELECT COUNT(*) AS total FROM carts WHERE user_id = '{$_SESSION['id']}'";
@@ -181,8 +181,8 @@
                         <?php } ?>
 
                         <div class="form-group">
-                            <label for="exampleFormControlTextarea1">Alamat</label>
-                            <textarea  name="address" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <label for="exampleFormControlTextarea1">Alamat Pengiriman</label>
+                            <textarea placeholder="Harap tulis alamat pengiriman dengan lengkap dan tepat"  name="address" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

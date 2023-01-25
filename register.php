@@ -51,7 +51,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="menu.php">Menu</a>
               </li>
-              <li class="nav-item active">
+              <li class="nav-item">
                 <a class="nav-link" href="about.php">About <span class="sr-only">(current)</span> </a>
               </li>
               <li class="nav-item">

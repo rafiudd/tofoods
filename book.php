@@ -67,7 +67,7 @@
                 <?php
                   include 'connection.php';
                   session_start();
-                  if(!$_SESSION['id']) {
+                  if(empty($_SESSION['id'])) {
                     $_SESSION['id'] = 0;
                   }
                   $sql = "SELECT COUNT(*) AS total FROM carts WHERE user_id = '{$_SESSION['id']}'";
