@@ -55,6 +55,9 @@
                 <?php
                   include 'connection.php';
                   session_start();
+                  if(!$_SESSION['id']) {
+                    $_SESSION['id'] = 0;
+                  }
                   $sql = "SELECT COUNT(*) AS total FROM carts WHERE user_id = '{$_SESSION['id']}'";
                   $result = mysqli_query($conn, $sql);
                   $data = mysqli_fetch_assoc($result);
@@ -105,7 +108,7 @@
             <tbody>
               <?php 
                 $sql_tampil = "SELECT carts.id AS order_id, products.product_name, products.price, products.description, products.image, carts.quantity FROM carts JOIN products ON carts.product_id = products.id JOIN users ON carts.user_id = users.id WHERE carts.user_id = '{$_SESSION['id']}'";
-                $data = mysqli_query($conn, $sql_tampil);                
+                $data = mysqli_query($conn, $sql_tampil);
                 while($baris_data = mysqli_fetch_array($data, MYSQLI_ASSOC)) {
               ?>
               <tr>
@@ -137,8 +140,19 @@
                 <td></td>
                 <td></td>
                 <td>
-                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter"> Checkout <span class="fa fa-play"></span>
-                  </button>
+                <?php
+                if(!$_SESSION['id']) {
+                  $_SESSION['id'] = 0;
+                }
+                $sql = "SELECT COUNT(*) AS total FROM carts WHERE user_id = '{$_SESSION['id']}'";
+                $result = mysqli_query($conn, $sql);
+                $data = mysqli_fetch_assoc($result);
+                
+                if($data['total'] > 0) {
+                  echo '<button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter"> Checkout <span class="fa fa-play"></span>
+                  </button>';
+                } ?>
+                  
                   <!-- Modal -->
                 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">

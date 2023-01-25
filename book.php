@@ -67,6 +67,9 @@
                 <?php
                   include 'connection.php';
                   session_start();
+                  if(!$_SESSION['id']) {
+                    $_SESSION['id'] = 0;
+                  }
                   $sql = "SELECT COUNT(*) AS total FROM carts WHERE user_id = '{$_SESSION['id']}'";
                   $result = mysqli_query($conn, $sql);
                   $data = mysqli_fetch_assoc($result);

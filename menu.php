@@ -69,6 +69,9 @@
                 <?php
                   include 'connection.php';
                   session_start();
+                  if(!$_SESSION['id']) {
+                    $_SESSION['id'] = 0;
+                  }
                   $sql = "SELECT COUNT(*) AS total FROM carts WHERE user_id = '{$_SESSION['id']}'";
                   $result = mysqli_query($conn, $sql);
                   $data = mysqli_fetch_assoc($result);
@@ -398,7 +401,7 @@
   </footer>
  
 
-
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="js/jquery-3.4.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
   </script>
@@ -414,6 +417,18 @@
     function showAlert() {
       document.getElementById('my_form').submit();
     }
+    function showFailed() {
+            Swal.fire(
+                    'Maaf, Anda Harus Login',
+                    'Untuk melakukan pemesanan silahkan login terlebih dahulu',
+                    'error'
+                    ).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        window.location.href = 'login.php';
+                    }
+                })
+        }
   </script>
 
 </body>
