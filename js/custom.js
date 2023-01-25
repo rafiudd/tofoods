@@ -7,31 +7,6 @@ function getYear() {
 
 getYear();
 
-
-// isotope js
-$(window).on('load', function () {
-    alert('asd');
-    // $('.filters_menu li').click(function () {
-    //     $('.filters_menu li').removeClass('active');
-    //     $(this).addClass('active');
-    // });
-
-    // var $grid = $(".grid").isotope({
-    //     itemSelector: ".all",
-    //     percentPosition: false,
-    //     masonry: {
-    //         columnWidth: ".all"
-    //     }
-    // })
-});
-
-// nice select
-$(document).ready(function() {
-    alert('asd');
-
-    $('select').niceSelect();
-  });
-
 /** google_map js **/
 function myMap() {
     var mapProp = {
