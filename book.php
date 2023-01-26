@@ -105,57 +105,133 @@
 
   <section class="book_section layout_padding">
     <div class="container">
+      <?php
+            $selectquery = "SELECT * FROM book_table WHERE status = 'Waiting Confirmation' ORDER BY id DESC LIMIT 1";
+            $result = mysqli_query($conn, $selectquery);
+            $data = mysqli_fetch_assoc($result);
+          ?>
       <div class="heading_container">
         <h2>
-          Book A Table
+          <?php 
+          if(mysqli_num_rows($result) > 0) {
+            echo 'Booking Table Confirmation';
+          } else {
+            echo 'Book A Table';
+          }
+          ?>
         </h2>
       </div>
       <div class="row">
-        <div class="col-md-6">
+        <div class=" <?php 
+                if(mysqli_num_rows($result) > 0) {
+                  echo 'col-md-12';
+                } else {
+                  echo 'col-md-6';
+                }
+              ?>">
           <div class="form_container">
-            <form action="">
+            <form action="<?php 
+                if(mysqli_num_rows($result) > 0) {
+                  echo 'booking-table-update.php';
+                } else {
+                  echo 'book-table-action.php';
+                }
+              ?>" method="POST">
               <div>
-                <input type="text" class="form-control" placeholder="Your Name" />
+              <?php 
+                if(mysqli_num_rows($result) > 0) {
+                  echo '<input disabled type="text" name="name" class="form-control" placeholder="'. $_SESSION["name"] .'" />';
+                } else {
+                  echo '<input type="text" name="name" class="form-control" placeholder="Your Name" />';
+                }
+              ?>
               </div>
               <div>
-                <input type="text" class="form-control" placeholder="Phone Number" />
+              <?php 
+                if(mysqli_num_rows($result) > 0) {
+                  echo '<input disabled type="text" name="name" class="form-control" placeholder="'. $data["phone"] .'" />';
+                } else {
+                  echo '<input type="text" name="phone" class="form-control" placeholder="Phone Number" />';
+                }
+              ?>
               </div>
               <div>
-                <input type="email" class="form-control" placeholder="Your Email" />
+              <?php 
+                if(mysqli_num_rows($result) > 0) {
+                  echo '<input disabled type="text" name="name" class="form-control" placeholder="'. $data["email"] .'" />';
+                } else {
+                  echo '<input type="email" name="email" class="form-control" placeholder="Your Email" />';
+                }
+              ?>
+                
               </div>
               <div>
-                <select class="form-control nice-select wide">
-                  <option value="" disabled selected>
+              <?php 
+                if(mysqli_num_rows($result) > 0) {
+                  echo '<select name="quantity" class="form-control nice-select wide">
+                  <option disabled value="'. $data["quantity"] .'" disabled selected>
+                  '. $data["quantity"] .'
+                  </option>
+                </select>';
+                } else {
+                  echo '<select name="quantity" class="form-control nice-select wide">
+                  <option disabled value="0" disabled selected>
                     How many persons?
                   </option>
-                  <option value="">
+                  <option value="2">
                     2
                   </option>
-                  <option value="">
+                  <option value="3">
                     3
                   </option>
-                  <option value="">
+                  <option value="4">
                     4
                   </option>
-                  <option value="">
+                  <option value="5">
                     5
                   </option>
-                </select>
+                </select>';
+                }
+              ?>
+                
               </div>
               <div>
-                <input type="date" class="form-control">
+              <?php 
+                if(mysqli_num_rows($result) > 0) {
+                  echo '<input disabled name="date_attend" type="date" class="form-control" value="'. $data["date_attend"] .'">';
+                } else {
+                  echo '<input name="date_attend" type="date" class="form-control">';
+                }
+              ?>
+                
               </div>
               <div class="btn_box">
-                <button>
+              <?php 
+                if(mysqli_num_rows($result) > 0) {
+                  echo '<button type="submit">
+                  Confirm Attending
+                </button>';
+                } else {
+                  echo '<button type="submit">
                   Book Now
-                </button>
+                </button>';
+                }
+              ?>
+                
               </div>
             </form>
           </div>
         </div>
         <div class="col-md-6">
           <div class="map_container ">
-            <div id="googleMap"></div>
+          <?php 
+                if(mysqli_num_rows($result) > 0) {
+                  echo '';
+                } else {
+                  echo '<div id="googleMap"></div>';
+                }
+              ?>
+            
           </div>
         </div>
       </div>
