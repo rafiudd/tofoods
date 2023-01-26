@@ -2,7 +2,12 @@
 include 'connection.php';
 session_start();
 
-$now = date_create()->format('Y-m-d H:i:s');
+$tz = 'Asia/Jakarta';
+$dt = new DateTime("now", new DateTimeZone($tz));
+$timestamp = $dt->format('Y-m-d G:i:s');
+$now = $timestamp;
+
+// $now = date_create()->format('Y-m-d H:i:s');
 $address = $_POST['address'];
 
 $sql_tampil = "SELECT SUM(products.price) AS price FROM carts JOIN products ON carts.product_id = products.id JOIN users ON carts.user_id = users.id WHERE carts.user_id = '{$_SESSION['id']}'";
@@ -10,11 +15,12 @@ $data = mysqli_query($conn, $sql_tampil);
 $row = mysqli_fetch_assoc($data);
 $total_price = $row['price'];
 
-$order = "INSERT INTO `orders` (`order_id`, `user_id`, `address`, `price`, `created_at`) VALUES(NULL, '{$_SESSION['id']}', '$address', '$total_price', '$now')";
+$order = "INSERT INTO `orders` (`order_id`, `user_id`, `address`, `price`, `status`, `created_at`) VALUES(NULL, '{$_SESSION['id']}', '$address', '$total_price', 'Pending Payment', '$now')";
 $result_order = mysqli_query($conn, $order);
+$order_id = '';
 
 if ($result_order) {
-    $selectquery="SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1";
+    $selectquery = "SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1";
     $result = mysqli_query($conn, $selectquery);
     $row = mysqli_fetch_assoc($result);
     $order_id = $row['order_id'];
@@ -42,7 +48,7 @@ if ($result_order) {
     $sql_delete=("DELETE FROM carts WHERE carts.user_id = '{$_SESSION['id']}' ");
     $delete = mysqli_query($conn, $sql_delete);
 
-    echo "<script>alert('Berhasil membuat order'); window.location='menu.php'; </script>";
+    echo "<script>alert('Berhasil membuat order'); window.location='payment-confirmation.php?order_id=$order_id'; </script>";
 }
 
 ?>

@@ -82,8 +82,9 @@
                     echo '
                       <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi, '.$_SESSION['name'].'!</button>
-                        <div class="dropdown-menu shadow-sm m-0" aria-labelledby="dropdownMenuButton">
-                          <a style="color: black;" class="" href="logout.php">Logout</a>
+                        <div class="dropdown-menu px-2" aria-labelledby="dropdownMenuButton">
+                          <a style="color: black;" class="dropdown-item" href="logout.php">Logout</a>
+                          <a style="color: black;" class="dropdown-item" href="orders.php">Riwayat Pemesanan</a>
                         </div>
                       </div>
                             ';

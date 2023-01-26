@@ -51,7 +51,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="menu.php">Menu</a>
               </li>
-              <li class="nav-item active">
+              <li class="nav-item">
                 <a class="nav-link" href="about.php">About</a>
               </li>
               <li class="nav-item">
@@ -64,6 +64,7 @@
                 <?php
                   include 'connection.php';
                   session_start();
+
                   if(empty($_SESSION['id'])) {
                     $_SESSION['id'] = 0;
                   }
@@ -101,38 +102,49 @@
     <!-- end header section -->
   </div>
 
-  <!-- about section -->
+ 
+  <div style="margin-top: 100px"></div>
+    <div class="row mx-0 align-items-center justify-content-center mt-5">
+      <div class="container row">
+      <div class="col-8">
+        <a href="orders.php">Kembali</a>
+        <h1>Payment Confirmation</h1>
+        <br>
+        <form action="update-payment.php?order_id=<?php echo $_GET['order_id'] ?>" method="POST">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Nama Lengkap</label>
+                            <input type="email" class="form-control" id="exampleFormControlInput1" disabled placeholder=<?php echo $_SESSION['name'] ?>>
+                        </div>
+                        <?php 
+                            $sql_tampil = "SELECT * FROM orders WHERE orders.order_id = '{$_GET['order_id']}'";
+                            $data = mysqli_query($conn, $sql_tampil);
+                            while($baris_data = mysqli_fetch_array($data, MYSQLI_ASSOC)) {
+                        ?>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Total</label>
+                            <input type="email" class="form-control" id="exampleFormControlInput1" disabled placeholder="Rp. <?php echo $baris_data['price']; ?>">
+                        </div>
 
-  <section class="about_section layout_padding">
-    <div class="container  ">
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Alamat Pengiriman</label>
+                            <textarea disabled placeholder=<?php echo $baris_data['address'] ?>  name="address" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        </div>
+                        <?php } ?>
 
-      <div class="row">
-        <div class="col-md-6 ">
-          <div class="img-box">
-            <img src="images/about-img.png" alt="">
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="detail-box">
-            <div class="heading_container">
-              <h2>
-                We Are Tofood
-              </h2>
-            </div>
-            <p>
-              Tofoods merupakan salah satu aplikasi yang menawarkan pelayanan pesan antar  makanan & minuman di kantin IT Telkom 
-              sesuai dengan permintaan pengguna Tofoods.
-            </p>
-            <a href="">
-              Read More
-            </a>
-          </div>
-        </div>
+                        <div class="modal-footer">
+                        <button type="submit" class="btn btn-success"> Confirm Payment </button>
+                    </div>
+                </form>
+      </div>
+      <div class="col-4 mt-5">
+          <br>
+        <img style="border-radius: 20px;" width="80%" src="./images/dana.jpeg" alt="" srcset="">
+        <p class="mt-2">Transfer ke dana 0852323842132 atas nama Dimas Nurwanda</p>
+      </div>
       </div>
     </div>
-  </section>
+    <div style="margin-top: 200px"></div>
 
-  <!-- end about section -->
 
   <!-- footer section -->
   <footer class="footer_section">

@@ -95,69 +95,64 @@
     <div style="margin-top: 100px"></div>
     <div class="row mx-0 align-items-center justify-content-center mt-5">
       <div class="container">
-        <h1>Your Cart</h1>
+        <h1>Your Orders</h1>
         <div class="col-sm-12 col-md-12 col-md-offset-1 mt-5">
           <table class="table table-hover">
             <thead>
               <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th class="text-center">Price</th>
+                <th>Order Id</th>
+                <th>Total Price</th>
+                <th>Address</th>
+                <th>Status</th>
+                <th>Date</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               <?php 
-                $sql_tampil = "SELECT carts.id AS order_id, products.product_name, products.price, products.description, products.image, carts.quantity FROM carts JOIN products ON carts.product_id = products.id JOIN users ON carts.user_id = users.id WHERE carts.user_id = '{$_SESSION['id']}'";
+                $sql_tampil = "SELECT * FROM orders WHERE orders.user_id = '{$_SESSION['id']}' ORDER BY order_id DESC";
                 $data = mysqli_query($conn, $sql_tampil);
                 while($baris_data = mysqli_fetch_array($data, MYSQLI_ASSOC)) {
               ?>
               <tr>
-                <td class="col-sm-8 col-md-6">
-                  <div class="media">
-                    <a class="thumbnail pull-left" style="color: black;" href="#">
-                      <img class="media-object" src=<?php echo $baris_data['image']; ?> style="width: 72px; height: 72px;">
-                      <?php echo $baris_data['product_name']; ?>
-                    </a>
-                  </div>
+                <td class="col-sm-8 col-md-1 align-middle">
+                  <!-- <div class="media"> -->
+                    <!-- <a class="thumbnail pull-left" style="color: black;" href="#"> -->
+                      <!-- <img class="media-object" src=<?php echo $baris_data['image']; ?> style="width: 72px; height: 72px;"> -->
+                       <?php echo $baris_data['order_id']; ?>
+                    <!-- </a> -->
+                  <!-- </div> -->
                 </td>
-                <td class="col-sm-1 col-md-1" style="text-align: center">
-                  <strong><?php echo $baris_data['quantity']; ?></strong>
+                <td class="col-sm-1 col-md-1 align-middle" style="text-align: center">
+                  <?php echo rupiah($baris_data['price']); ?>
                 </td>
-                <td class="col-sm-1 col-md-1 text-center">
-                  <strong><?php echo rupiah($baris_data['price']); ?></strong>
+                <td class="col-sm-1 col-md-2 align-middle">
+                  <?php echo $baris_data['address']; ?>
                 </td>
-                <td class="col-sm-1 col-md-1">
-                    <form id="delete-cart" action="delete-cart-action.php?id=<?php echo $baris_data['order_id']?>" method="POST">
-                        <button onclick="showAlert()" id="btn-delete" type="button" class="btn btn-danger">
-                            <span class="fa fa-remove"></span> Remove 
-                        </button>
-                    </form>
+                <td class="col-sm-1 col-md-2 align-middle">
+                  <?php 
+                    if($baris_data['status'] == 'Pending Payment') {
+                      echo '<button disabled type="button" class="btn btn-warning">Pending Payment</button>';
+                    } else {
+                      echo '<button disabled type="button" class="btn btn-success">Ordered</button>';
+                    }
+                  ?>
+                </td>
+                <td class="col-sm-1 col-md-2 align-middle">
+                  <?php echo date('D, Y-m-d h:i:s', strtotime($baris_data['created_at'])); ?>
+                </td>
+                <td class="col-sm-1 col-md-2 align-middle">
+                  <?php 
+                    if($baris_data['status'] == 'Pending Payment') {
+                      echo '<a href="payment-confirmation.php?order_id='. $baris_data["order_id"] .'"><button type="button" class="btn btn-warning">Update Payment</button></a>';
+                    } else {
+                      echo '<a href="invoices.php?order_id='. $baris_data["order_id"] .'"><button type="button" class="btn btn-success">Lihat Invoice</button></a>';
+                    }
+                  ?>
                 </td>
               </tr>
               <?php } ?>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                <?php
-                if(empty($_SESSION['id'])) {
-                  $_SESSION['id'] = 0;
-                }
-                $sql = "SELECT COUNT(*) AS total FROM carts WHERE user_id = '{$_SESSION['id']}'";
-                $result = mysqli_query($conn, $sql);
-                $data = mysqli_fetch_assoc($result);
-                
-                if($data['total'] > 0) {
-                  echo '<button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter"> Checkout <span class="fa fa-play"></span>
-                  </button>';
-                } else {
-                  echo '<button type="button" class="btn" disabled> Anda Belum Memiliki Keranjang
-                  </button>';
-                } ?>
-
-                  
+              
                   <!-- Modal -->
                 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
