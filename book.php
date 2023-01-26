@@ -212,9 +212,15 @@
                   Confirm Attending
                 </button>';
                 } else {
+                  if(empty($_SESSION['id'])) {
+                    echo '<button onclick="showFailed()" type="button">
+                  Book Now
+                </button>';
+                  } else {
                   echo '<button type="submit">
                   Book Now
                 </button>';
+              }
                 }
               ?>
                 
@@ -321,7 +327,8 @@
     </div>
   </footer>
 
-  
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <script src="js/jquery-3.4.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
   </script>
@@ -334,6 +341,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
   <script src="js/custom.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+  </script>
+  <script>
+            function showFailed() {
+            Swal.fire(
+                    'Maaf, Anda Harus Login',
+                    'Untuk melakukan pemesanan silahkan login terlebih dahulu',
+                    'error'
+                    ).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        window.location.href = 'login.php';
+                    }
+                })
+        }
   </script>
 
 </body>
